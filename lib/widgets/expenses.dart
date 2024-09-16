@@ -26,6 +26,12 @@ class _ExpensesState extends State<Expenses> {
         category: Category.leisure),
   ];
 
+  void _addExpenses(Expense expense) {
+    setState(() {
+      _regestiredExpeses.add(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +41,10 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
             onPressed: () {
               //this modal is a new screen that shows an overlay on your screen that is closed on press
-              showModalBottomSheet(context: context, builder: (ctx)=>const NewExpense());
+              showModalBottomSheet(
+                  context: context, builder: (ctx) => NewExpense(_addExpenses));
             },
-            icon:const Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),

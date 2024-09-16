@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:expenses_app/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense(this.saveExpense, {super.key});
+  final void Function(Expense) saveExpense;
   @override
   State<StatefulWidget> createState() {
     return _NewExpenseState();
@@ -21,7 +22,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _priceController = TextEditingController();
 
-//intialized and non intialized 
+//intialized and non intialized
   DateTime? _selectedDate;
   Category _selectedcategory = Category.leisure;
 
@@ -48,6 +49,61 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+// a function to check if input is valid
+  void _submitExpense() {
+    //tryparse if used to turn text to double if possible (if not return null).
+    final enteredAmount = double.tryParse(_priceController.text);
+    final isInvalid = enteredAmount == null || enteredAmount <= 0;
+
+    if (_titleController.text.isEmpty || isInvalid || _selectedDate == null) {
+      //error dialog
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Row(
+            children: [
+              Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 26,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                'invalid data input!',
+                style: TextStyle(
+                    // color: Colors.red,
+                    ),
+              ),
+            ],
+          ),
+          content: const Text(
+              'Please make sure you entered valid price,title and date'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text(
+                'Okay',
+              ),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+    Navigator.pop(context);
+    widget.saveExpense(
+      Expense(
+          amount: double.parse(_priceController.text),
+          category: _selectedcategory,
+          date: _selectedDate!,
+          name: _titleController.text),
+    );
   }
 
   @override
@@ -81,7 +137,7 @@ class _NewExpenseState extends State<NewExpense> {
               // used expanded to prevent problems when a row is inside a row and these thimgs
               Expanded(
                 child: Row(
-                  //push elemnts to the end of the row 
+                  //push elemnts to the end of the row
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(_selectedDate != null
@@ -131,10 +187,7 @@ class _NewExpenseState extends State<NewExpense> {
                 child: const Text("Cancel"),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    print(_titleController.text);
-                  },
-                  child: const Text('save'))
+                  onPressed: _submitExpense, child: const Text('save'))
             ],
           )
         ],

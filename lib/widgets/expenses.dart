@@ -1,4 +1,5 @@
 import 'package:expenses_app/widgets/expense_list/expenses_list.dart';
+import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
 
@@ -34,7 +35,7 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
             onPressed: () {
               //this modal is a new screen that shows an overlay on your screen that is closed on press
-              showModalBottomSheet(context: context, builder: (ctx)=>const Text('Modal'));
+              showModalBottomSheet(context: context, builder: (ctx)=>const NewExpense());
             },
             icon:const Icon(Icons.add),
           ),

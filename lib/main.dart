@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'expenses.dart';
 
 void main() {
-  runApp(const());
+  runApp(
+    const MaterialApp(
+      home: Expenses(),
+    ),
+  );
 }

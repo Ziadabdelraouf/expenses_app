@@ -109,89 +109,90 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          //to input data(text) from user
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(label: Text('Title')),
-          ),
-          Row(
-            children: [
-              Expanded(
-                //to input data (numbers) drom the user
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    prefixText: '\$',
-                    label: Text('Price'),
+      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+        child: Column(
+          children: [
+            //to input data(text) from user
+            TextField(
+              controller: _titleController,
+              maxLength: 50,
+              decoration: const InputDecoration(label: Text('Title')),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  //to input data (numbers) drom the user
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: _priceController,
+                    decoration: const InputDecoration(
+                      prefixText: '\$',
+                      label: Text('Price'),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              // used expanded to prevent problems when a row is inside a row and these thimgs
-              Expanded(
-                child: Row(
-                  //push elemnts to the end of the row
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(_selectedDate != null
-                        ? formatter.format(_selectedDate!)
-                        : 'Select Date'),
-                    IconButton(
-                      onPressed: _datePicker,
-                      icon: const Icon(
-                        Icons.calendar_month,
-                      ),
-                    ),
-                  ],
+                const SizedBox(
+                  width: 16,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                value: _selectedcategory,
-                items: Category.values
-                    .map(
-                      //maps a list values to list of obejcts to display them in drop down menu
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category.name.toUpperCase()),
+                // used expanded to prevent problems when a row is inside a row and these thimgs
+                Expanded(
+                  child: Row(
+                    //push elemnts to the end of the row
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(_selectedDate != null
+                          ? formatter.format(_selectedDate!)
+                          : 'Select Date'),
+                      IconButton(
+                        onPressed: _datePicker,
+                        icon: const Icon(
+                          Icons.calendar_month,
+                        ),
                       ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    _selectedcategory = value;
-                  });
-                },
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-              ElevatedButton(
-                  onPressed: _submitExpense, child: const Text('save'))
-            ],
-          )
-        ],
-      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                DropdownButton(
+                  value: _selectedcategory,
+                  items: Category.values
+                      .map(
+                        //maps a list values to list of obejcts to display them in drop down menu
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toUpperCase()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+                    setState(() {
+                      _selectedcategory = value;
+                    });
+                  },
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                    onPressed: _submitExpense, child: const Text('save'))
+              ],
+            ),
+          ],
+        ),
+      
     );
   }
 }

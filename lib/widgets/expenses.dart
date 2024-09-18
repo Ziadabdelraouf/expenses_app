@@ -1,3 +1,4 @@
+import 'package:expenses_app/widgets/chart.dart';
 import 'package:expenses_app/widgets/expense_list/expenses_list.dart';
 import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +35,11 @@ class _ExpensesState extends State<Expenses> {
 
   void _removeExpense(Expense expense) {
     final expenseIndex = _regestiredExpeses.indexOf(expense);
-    setState(() {
-      _regestiredExpeses.remove(expense);
-    });
+    setState(
+      () {
+        _regestiredExpeses.remove(expense);
+      },
+    );
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -55,7 +58,9 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     Widget mainContent = const Center(
+      heightFactor: 20,
       child: Text(
+        style: TextStyle(),
         'No expenses found ,please add some',
       ),
     );
@@ -85,8 +90,9 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('chart'),
+          Chart(expenses: _regestiredExpeses),
           mainContent,
         ],
       ),

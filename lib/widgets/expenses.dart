@@ -57,6 +57,7 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     Widget mainContent = const Center(
       heightFactor: 20,
       child: Text(
@@ -74,28 +75,38 @@ class _ExpensesState extends State<Expenses> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Tracker App!'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              //this modal is a new screen that shows an overlay on your screen that is closed on press
-              showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (ctx) => NewExpense(_addExpenses));
-            },
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Chart(expenses: _regestiredExpeses),
-          mainContent,
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Expense Tracker App!'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                //this modal is a new screen that shows an overlay on your screen that is closed on press
+                showModalBottomSheet(
+                  useSafeArea: true,
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (ctx) => NewExpense(_addExpenses));
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        //this ternary expression checks the width to align the contents above each other or ,if the width is enough, align them next to each other.
+        body: width < 550
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Chart(expenses: _regestiredExpeses),
+                  mainContent,
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(
+                    child: Chart(expenses: _regestiredExpeses),
+                  ),
+                  mainContent,
+                ],
+              ));
   }
 }
